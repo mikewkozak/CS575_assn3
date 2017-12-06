@@ -8,12 +8,12 @@
         android:id="@+id/textButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editText1"
-        android:layout_toRightOf="@+id/editText1"
+        android:layout_alignTop="@+id/rawText"
+        android:layout_toRightOf="@+id/rawText"
         android:text="@string/generate_report" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/rawText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/spinner1"
-        android:layout_toRightOf="@+id/editText1"
+        android:layout_toRightOf="@+id/rawText"
         android:text="@string/generate_report" />
 
     <TextView

@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 
 	//UI elements for adding listeners and updating labels dynamically
 	private Button   rawTextButton;
-	private EditText mEdit;
+	private EditText rawTextField;
 	private Spinner contactsSpinner;
 	private Button   contactsButton;
 	private TextView resultsField;
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 
 		//Grabs the UI elements
 		rawTextButton = (Button)findViewById(R.id.textButton);
-		mEdit   = (EditText)findViewById(R.id.editText1);
+		rawTextField   = (EditText)findViewById(R.id.rawText);
 		contactsSpinner   = (Spinner)findViewById(R.id.spinner1);
 		contactsButton = (Button)findViewById(R.id.contactButton);
 		resultsField = (TextView)findViewById(R.id.tokenizeResults);
@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 				{
 					public void onClick(View view)
 					{
-						TextMessage msg = new TextMessage(-1,"",mEdit.getText().toString());
+						TextMessage msg = new TextMessage(-1,"",rawTextField.getText().toString());
 						String report = reportGenerator.generateTTRReport(msg);
 						resultsField.setText(report);
 					}
