@@ -1,6 +1,18 @@
+/**
+ * Mike Kozak (Student ID 10223568)
+ * CS575 Assignment 3
+ * 
+ */
 package com.drexel.cs575.credibilityassessor.datamodel;
 
+/**
+ * Simple package class. While this only has a string right now, it's designed to be extended to include other details
+ * @author Computer
+ *
+ */
 public class Contact {
+	
+	
 	private String name;
 	
 	public Contact(String myName) {

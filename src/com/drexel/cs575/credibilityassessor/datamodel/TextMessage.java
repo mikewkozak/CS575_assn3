@@ -1,5 +1,16 @@
+/**
+ * Mike Kozak (Student ID 10223568)
+ * CS575 Assignment 3
+ * 
+ */
 package com.drexel.cs575.credibilityassessor.datamodel;
 
+/**
+ * Simple container class. This SHOULD use Contact instead of String for the contact field, but GSON doesn't play well with nested classes
+ * and I wanted to demonstrate functionality without messing with custom parsers.
+ * @author Computer
+ *
+ */
 public class TextMessage {
 	private int id;
 	private String contact;
