@@ -3,47 +3,52 @@ package com.drexel.cs575.credibilityassessor.datamodel;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import android.content.res.AssetManager;
 import android.util.Log;
 
-public class AndroidMock {
+public class AndroidMock implements ISMSAdapter {
 
-    private HashMap<Integer, TextMessage> messageCache = null;
+    private HashMap<Contact, TextMessage> messageCache = null;
     
     private AssetManager assetMgr = null; 
     
     public AndroidMock (AssetManager textMessages) {
     	assetMgr = textMessages;
+    	
+    	queryMessages();
     }
 
-    public HashMap<Integer, TextMessage> getFullPubList() {
-        return queryMessages();
+    public TextMessage getMessageByName(Contact name) {
+        HashMap<Contact, TextMessage> msgDB = queryMessages();
+        TextMessage msg;
+        if(msgDB.containsKey(name)) {
+        	msg = msgDB.get(name);
+        } else {
+        	msg = new TextMessage(-1,"None","");
+        }
+        
+        return msg;
     }
-
-    public TextMessage getMessageById(int id) {
-        HashMap<Integer, TextMessage> pubDB = queryMessages();
-        Integer index = new Integer(id);
-        return pubDB.get(index);
-    }
+    
 
     public Collection<TextMessage> getAllMessage() {
-        HashMap<Integer, TextMessage> pubDB = queryMessages();
-        return pubDB.values();
+        HashMap<Contact, TextMessage> msgDB = queryMessages();
+        return msgDB.values();
     }
 
-    private HashMap<Integer, TextMessage> queryMessages() {
-    	Log.v("AndroidMock", "Reading JSON file to build message set");
+    
+    private HashMap<Contact, TextMessage> queryMessages() {
         if (messageCache != null) return messageCache;
-
-        ObjectMapper mapper = new ObjectMapper();
-        HashMap<Integer, TextMessage> msgDB = new HashMap<Integer, TextMessage>();
-
+        
+    	Log.v("AndroidMock", "Reading JSON file to build message set");
+        HashMap<Contact, TextMessage> msgDB = new HashMap<Contact, TextMessage>();
+        
         try {
             InputStream is = assetMgr.open("texts.json");
             int size = is.available();
@@ -55,9 +60,12 @@ public class AndroidMock {
             TextMessage[] messages = new Gson().fromJson(json, TextMessage[].class);
             Log.v("AndroidMock", "Num texts loaded: " + messages.length);
             for (TextMessage p : messages) {
-                Integer idx = new Integer(p.getId());
-                msgDB.put(idx, p);
+            	Contact c = new Contact(p.getContact());
+            	Log.v("AndroidMock", "Adding " + c + " to DB");
+                msgDB.put(c, p);
             }
+
+            messageCache = msgDB;
             
         } catch (IOException ex) {
         	Log.v("Failure", ex.toString());
@@ -65,5 +73,12 @@ public class AndroidMock {
         
         return msgDB;
     }
+
+	@Override
+	public Collection<Contact> getAllContacts() {
+		 if (messageCache != null) return messageCache.keySet();
+		 
+		return new ArrayList<Contact>();
+	}
 
 }

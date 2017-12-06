@@ -1,12 +1,18 @@
 package com.drexel.cs575.credibilityassessor.datamodel;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TextMessage {
 	private int id;
 	private String contact;
 	private String text;
+	
+	public TextMessage() {}
+	
+	public TextMessage(int id, String contact, String text) {
+		this.id = id;
+		this.contact = contact;
+		this.text = text;
+	}
+	
 	/**
 	 * @return the id
 	 */
