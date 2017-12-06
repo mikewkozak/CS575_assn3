@@ -13,6 +13,7 @@ import com.drexel.cs575.credibilityassessor.adapters.AndroidAdapter;
 import com.drexel.cs575.credibilityassessor.adapters.AndroidMock;
 import com.drexel.cs575.credibilityassessor.datamodel.Contact;
 import com.drexel.cs575.credibilityassessor.datamodel.TextMessage;
+import com.drexel.cs575.credibilityassessor.filters.ReportGenerator;
 import com.drexel.cs575.credibilityassessor.util.TextTokenizer;
 
 import android.Manifest;
@@ -45,6 +46,9 @@ public class MainActivity extends Activity {
 	//The Adapters used for interacting with the underlying OS
 	private AndroidMock mockDB;
 	private AndroidAdapter androidDB;
+	
+	//This class handles processing data through util functions to produce reports
+	private ReportGenerator reportGenerator = new ReportGenerator();
 
 	//UI elements for adding listeners and updating labels dynamically
 	private Button   rawTextButton;
@@ -74,8 +78,9 @@ public class MainActivity extends Activity {
 				{
 					public void onClick(View view)
 					{
-						double ratio = TextTokenizer.deriveTypeTokenRatio(mEdit.getText().toString());
-						resultsField.setText("TTE for text = " + String.valueOf(ratio));
+						TextMessage msg = new TextMessage(-1,"",mEdit.getText().toString());
+						String report = reportGenerator.generateTTRReport(msg);
+						resultsField.setText(report);
 					}
 				});
 
@@ -89,8 +94,8 @@ public class MainActivity extends Activity {
 						TextMessage msg = mockDB.getMessageByName((Contact)contactsSpinner.getSelectedItem());
 						
 						//the DB always returns a TextMessage. If nothing is found a "None" Text will be returned
-						double ratio = TextTokenizer.deriveTypeTokenRatio(msg.getText());
-						resultsField.setText("TTE for text from " + msg.getContact() + " = " + String.valueOf(ratio));
+						String report = reportGenerator.generateTTRReport(msg);
+						resultsField.setText(report);
 					}
 				});
 
@@ -154,8 +159,8 @@ public class MainActivity extends Activity {
 			//TEST USING MOCK DB
 			Collection<TextMessage> messages = mockDB.getAllMessage();
 			for(TextMessage msg : messages) {
-				double ratio = TextTokenizer.deriveTypeTokenRatio(msg.getText());
-				Log.v("MainActivity", "TTR for message ID:" + msg.getId() + "From user "+ msg.getContact() + " is " + ratio);
+				String report = reportGenerator.generateTTRReport(msg);
+				Log.v("MainActivity",report);
 			}
 			
 		} else {
@@ -166,8 +171,8 @@ public class MainActivity extends Activity {
 				Log.v("MainActivity", "READ_SMS PERMISSIONS GRANTED");
 				Collection<TextMessage> messages = androidDB.getAllMessage();
 				for(TextMessage msg : messages) {
-					double ratio = TextTokenizer.deriveTypeTokenRatio(msg.getText());
-					Log.v("MainActivity", "TTR for message ID:" + msg.getId() + "From user "+ msg.getContact() + " is " + ratio);
+					String report = reportGenerator.generateTTRReport(msg);
+					Log.v("MainActivity",report);
 				}
 				
 			} else {

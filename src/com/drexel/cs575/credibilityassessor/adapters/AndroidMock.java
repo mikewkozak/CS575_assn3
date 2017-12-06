@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import com.drexel.cs575.credibilityassessor.datamodel.Contact;
+import com.drexel.cs575.credibilityassessor.datamodel.EmptyMessage;
 import com.drexel.cs575.credibilityassessor.datamodel.TextMessage;
 import com.google.gson.Gson;
 
@@ -44,7 +45,7 @@ public class AndroidMock implements ISMSAdapter {
         if(msgDB.containsKey(name)) {
         	msg = msgDB.get(name);
         } else {
-        	msg = new TextMessage(-1,"None","");
+        	msg = new EmptyMessage();
         }
         
         return msg;

@@ -4,4 +4,5 @@
     <string name="app_name">CredibilityAssessor</string>
     <string name="hello_world">Select a Contact</string>
     <string name="enter_text">Enter Message</string>
+    <string name="generate_report">Generate Report</string>
 </resources>

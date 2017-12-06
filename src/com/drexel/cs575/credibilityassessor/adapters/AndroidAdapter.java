@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.drexel.cs575.credibilityassessor.datamodel.Contact;
+import com.drexel.cs575.credibilityassessor.datamodel.EmptyMessage;
 import com.drexel.cs575.credibilityassessor.datamodel.TextMessage;
 
 import android.content.ContentResolver;
@@ -41,7 +42,13 @@ public class AndroidAdapter implements ISMSAdapter {
 
     public TextMessage getMessageByName(Contact name) {
         HashMap<Contact, TextMessage> msgDB = queryMessages();
-        return msgDB.get(name);
+        TextMessage msg;
+        if(msgDB.containsKey(name)) {
+        	msg = msgDB.get(name);
+        } else {
+        	msg = new EmptyMessage();
+        }
+        return msg;
     }
     
 
